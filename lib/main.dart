@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:what_the_gif/src/domain/model/gif_model.dart';
+import 'package:what_the_gif/src/domain/repository/giphy_repository.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -28,6 +28,7 @@ class GiphyHomePage extends StatefulWidget {
 }
 
 class _GiphyHomePageState extends State<GiphyHomePage> {
+  final GiphyRepository _repository = GiphyRepository();
   List<GifModel> gifs = [];
   bool isLoading = false;
 
@@ -38,22 +39,10 @@ class _GiphyHomePageState extends State<GiphyHomePage> {
   }
 
   Future<void> fetchTrendingGifs() async {
-    final apiKey = dotenv.env["GIPHY_OPEN_API_KEY"];
-    final url =
-        "https://api.giphy.com/v1/gifs/trending?api_key=$apiKey&limit=20";
-    final response = await Dio().get(url);
-
-    if (response.statusCode == 200) {
-      final data = response.data;
-      // set state
-      setState(() {
-        gifs = (data["data"] as List)
-            .map((json) => GifModel.fromJson(json))
-            .toList();
-      });
-    } else {
-      // handle error
-    }
+    final data = await _repository.getTrendingGifs();
+    setState(() {
+      gifs = data;
+    });
   }
 
   @override
