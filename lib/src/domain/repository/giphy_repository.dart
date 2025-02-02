@@ -1,16 +1,15 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:injectable/injectable.dart';
 import 'package:what_the_gif/src/domain/api/giphy_api_service.dart';
 import 'package:what_the_gif/src/domain/model/gif_model.dart';
 
+@lazySingleton
 class GiphyRepository {
   final GiphyApiService _apiService;
-  final String apiKey = dotenv.env["GIPHY_OPEN_API_KEY"] ?? "";
 
-  GiphyRepository() : _apiService = GiphyApiService(Dio());
+  GiphyRepository(this._apiService);
 
   Future<List<GifModel>> getTrendingGifs() async {
-    final response = await _apiService.getTrendingGifs(apiKey, 20);
+    final response = await _apiService.getTrendingGifs(20);
     return response.data;
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:what_the_gif/src/di/service_locator.dart';
 import 'package:what_the_gif/src/domain/model/gif_model.dart';
 import 'package:what_the_gif/src/domain/repository/giphy_repository.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
+  configureDependencies();
   runApp(const GiphyApp());
 }
 
@@ -28,7 +30,7 @@ class GiphyHomePage extends StatefulWidget {
 }
 
 class _GiphyHomePageState extends State<GiphyHomePage> {
-  final GiphyRepository _repository = GiphyRepository();
+  final GiphyRepository _repository = getIt<GiphyRepository>();
   List<GifModel> gifs = [];
   bool isLoading = false;
 

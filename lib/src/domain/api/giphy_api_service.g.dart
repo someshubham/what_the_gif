@@ -9,9 +9,7 @@ part of 'giphy_api_service.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _GiphyApiService implements GiphyApiService {
-  _GiphyApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://api.giphy.com/v1/gifs/';
-  }
+  _GiphyApiService(this._dio, {this.baseUrl, this.errorLogger});
 
   final Dio _dio;
 
@@ -20,12 +18,9 @@ class _GiphyApiService implements GiphyApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<GifResponse> getTrendingGifs(String apiKey, int limit) async {
+  Future<GifResponse> getTrendingGifs(int limit) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'api_key': apiKey,
-      r'limit': limit,
-    };
+    final queryParameters = <String, dynamic>{r'limit': limit};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GifResponse>(
