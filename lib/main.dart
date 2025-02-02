@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:what_the_gif/src/domain/model/gif_model.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -27,7 +28,7 @@ class GiphyHomePage extends StatefulWidget {
 }
 
 class _GiphyHomePageState extends State<GiphyHomePage> {
-  List gifs = [];
+  List<GifModel> gifs = [];
   bool isLoading = false;
 
   @override
@@ -46,7 +47,9 @@ class _GiphyHomePageState extends State<GiphyHomePage> {
       final data = response.data;
       // set state
       setState(() {
-        gifs = data["data"];
+        gifs = (data["data"] as List)
+            .map((json) => GifModel.fromJson(json))
+            .toList();
       });
     } else {
       // handle error
@@ -73,7 +76,7 @@ class _GiphyHomePageState extends State<GiphyHomePage> {
         ),
         itemCount: gifs.length,
         itemBuilder: (context, index) {
-          final gifUrl = gifs[index]["images"]["fixed_height"]["url"];
+          final gifUrl = gifs[index].images.fixedHeight.url;
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: ClipRRect(
