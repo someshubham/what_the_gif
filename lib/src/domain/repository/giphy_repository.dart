@@ -13,3 +13,4 @@ class GiphyRepository {
     return response.data;
   }
 }
+
