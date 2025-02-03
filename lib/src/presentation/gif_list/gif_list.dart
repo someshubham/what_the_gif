@@ -12,7 +12,7 @@ class GifList extends StatelessWidget {
       create: (_) => getIt<GifListBloc>(),
       child: BlocBuilder<GifListBloc, GifListState>(
         builder: (context, state) => state.processState.maybeWhen(
-          loading: () => CircularProgressIndicator(),
+          loading: () => Center(child: CircularProgressIndicator()),
           loaded: () => GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
