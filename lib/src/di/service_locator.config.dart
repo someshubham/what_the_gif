@@ -19,6 +19,8 @@ import 'package:what_the_gif/src/domain/api/dio/interceptor/auth_interceptor.dar
 import 'package:what_the_gif/src/domain/api/giphy_api_service.dart' as _i504;
 import 'package:what_the_gif/src/domain/repository/giphy_repository.dart'
     as _i369;
+import 'package:what_the_gif/src/presentation/gif_list/bloc/gif_list_bloc.dart'
+    as _i7;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -41,6 +43,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i504.GiphyApiService(gh<_i361.Dio>()));
     gh.lazySingleton<_i369.GiphyRepository>(
         () => _i369.GiphyRepository(gh<_i504.GiphyApiService>()));
+    gh.factory<_i7.GifListBloc>(
+        () => _i7.GifListBloc(gh<_i369.GiphyRepository>()));
     return this;
   }
 }

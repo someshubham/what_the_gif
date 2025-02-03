@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:what_the_gif/src/di/service_locator.dart';
 import 'package:what_the_gif/src/domain/model/gif_model.dart';
 import 'package:what_the_gif/src/domain/repository/giphy_repository.dart';
+import 'package:what_the_gif/src/presentation/gif_list/gif_list.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -59,24 +60,7 @@ class _GiphyHomePageState extends State<GiphyHomePage> {
           ),
         ],
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: gifs.length,
-        itemBuilder: (context, index) {
-          final gifUrl = gifs[index].images.fixedHeight.url;
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(gifUrl, fit: BoxFit.cover),
-            ),
-          );
-        },
-      ),
+      body: GifList(),
     );
   }
 }
